@@ -1,0 +1,10 @@
+#!name=googleAd
+#!desc=googleAd：去广告
+
+[Rule]
+
+# > Google
+DOMAIN-SUFFIX,doubleclick.net,REJECT
+DOMAIN-SUFFIX,googleadservices.com,REJECT
+DOMAIN-SUFFIX,googleadsserving.cn,REJECT
+DOMAIN-SUFFIX,googlesyndication.com,REJECT

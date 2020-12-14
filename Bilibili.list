@@ -1,0 +1,6 @@
+# > bilibili
+USER-AGENT,bili-universal,BiliBili
+USER-AGENT,Bilibili*,BiliBili
+DOMAIN-SUFFIX,acgvideo.com,BiliBili
+DOMAIN-SUFFIX,bilibili.com,BiliBili
+DOMAIN-SUFFIX,hdslb.com,BiliBili
