@@ -1,8 +1,7 @@
 #!name=RemoveAds&Unlock
-#!desc=RemoveAds&Unlock：去广告、解锁等规则和脚本，「括号内为对应的hostname，可根据自己需求修改」
+#!desc=RemoveAds&Unlock：去广告、解锁等规则和脚本
 
 [Rule]
-
 
 # > B乎去广告(api.zhihu.com, www.zhihu.com)
 USER-AGENT,AVOS*,REJECT-TINYGIF
@@ -14,28 +13,13 @@ AND,((USER-AGENT,osee2*), (NOT,((DOMAIN-SUFFIX,zhihu.com))), (NOT,((DOMAIN-SUFFI
 URL-REGEX,https://app.bilibili.com/x/v2/(splash|search/(defaultword|square)),REJECT
 URL-REGEX,https://api.bilibili.com/x/v2/dm/ad,REJECT
 
-[URL Rewrite]
-# > tiktok解锁(*.tiktokv.com, *.byteoversea.com, *.musical.ly, *.snssdk.com)
-(?<=_region=)CN(?=&) JP 307
-(?<=&app_version=)15..(?=.?.?&) 1 307
-(?<=\?version_code=)15..(?=.?.?&) 1 307
-
-# > tiktok去水印(*.amemv.com, *.snssdk.com)
-^https://aweme-eagle(.*)\.snssdk\.com/aweme/v2/ https://aweme-eagle$1.snssdk.com/aweme/v1/ 302
-
 [Script]
-# > YouTube去广告(*.googlevideo.com, *.youtube.com, youtubei.googleapis.com)
-# YouTube = type=http-request,pattern=https://[\s\S]*\.googlevideo\.com/.*&(oad|ctier),script-path=https://Choler.github.io/Surge/Script/YouTube.js
 
 # > B乎去广告(api.zhihu.com, www.zhihu.com)
 zhihu people = type=http-response,requires-body=1,max-size=0,pattern=https://api.zhihu.com/people/,script-path=https://raw.githubusercontent.com/onewayticket255/Surge-Script/master/surge%20zhihu%20people.js
 zhihu feed = type=http-response,requires-body=1,max-size=0,pattern=https://api.zhihu.com/moments/recommend,script-path=https://raw.githubusercontent.com/onewayticket255/Surge-Script/master/surge%20zhihu%20feed.js
 zhihu recommend = type=http-response,requires-body=1,max-size=0,pattern=https://api.zhihu.com/topstory/recommend,script-path=https://raw.githubusercontent.com/onewayticket255/Surge-Script/master/surge%20zhihu%20recommend.js
 zhihu answer = type=http-response,requires-body=1,max-size=0,pattern=https://api.zhihu.com/v4/questions,script-path=https://raw.githubusercontent.com/onewayticket255/Surge-Script/master/surge%20zhihu%20answer.js
-
-# > tiktok去水印(*.amemv.com, *.snssdk.com)
-Aweme = type=http-request,pattern=https:\/\/.*\.amemv\.com\/aweme\/v.*\/(feed|post),script-path=https://Choler.github.io/Surge/Script/Aweme.js
-Aweme = type=http-response,pattern=https:\/\/.*\.amemv\.com\/aweme\/v.*\/(feed|post),requires-body=true,script-path=https://Choler.github.io/Surge/Script/Aweme.js
 
 # > B站去广告(www.bilibili.com, api.bilibili.com, app.bilibili.com, api.live.bilibili.com)
 bilibili space = type=http-response,requires-body=1,max-size=0,pattern=https://app.bilibili.com/x/v2/space\?access_key,script-path=https://raw.githubusercontent.com/onewayticket255/Surge-Script/master/surge%20bilibili%20space.js
@@ -58,13 +42,6 @@ Weibo = requires-body=1,script-path=https://raw.githubusercontent.com/yichahucha
 nf_rating = script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js,type=http-request,pattern=^https?://ios\.prod\.ftl\.netflix\.com/iosui/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D
 nf_rating = requires-body=1,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js,type=http-response,pattern=^https?://ios\.prod\.ftl\.netflix\.com/iosui/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D
 
-# > JD比价(api.m.jd.com)
-jd_price = requires-body=1,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/jd_price.js,type=http-response,pattern=^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig)
-
-# > Taobao比价(amdc.m.taobao.com, trade-acs.m.taobao.com)
-tb_price = requires-body=1,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/tb_price.js,type=http-request,pattern=^http://.+/amdc/mobileDispatch
-tb_price = requires-body=1,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/tb_price.js,type=http-response,pattern=^https?://trade-acs\.m\.taobao\.com/gw/mtop\.taobao\.detail\.getdetail
-
 # > WeChat去广告(mp.weixin.qq.com)
 WeChat = script-path=https://Choler.github.io/Surge/Script/WeChat.js,type=http-request,pattern=^https://mp\.weixin\.qq\.com/mp/getappmsgad
 
@@ -75,4 +52,4 @@ Toutiao = requires-body=1,max-size=-1,script-path=https://Choler.github.io/Surge
 QQNews = requires-body=1,max-size=-1,script-path=https://Choler.github.io/Surge/Script/QQNews.js,type=http-response,pattern=https://r\.inews\.qq.com\/get(QQNewsUnreadList|RecommendList)
 
 [MITM]
-hostname = %APPEND% api.zhihu.com, www.zhihu.com, www.bilibili.com, api.bilibili.com, app.bilibili.com, api.live.bilibili.com, *.tiktokv.com, *.byteoversea.com, *.musical.ly, *.snssdk.com, *.amemv.com, api.gamer.com.tw, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, api.m.jd.com, amdc.m.taobao.com, trade-acs.m.taobao.com, ios.prod.ftl.netflix.com, mp.weixin.qq.com, r.inews.qq.com
+hostname = %APPEND% api.zhihu.com, www.zhihu.com, www.bilibili.com, api.bilibili.com, app.bilibili.com, api.live.bilibili.com, *.musical.ly, *.snssdk.com, *.amemv.com, api.gamer.com.tw, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, ios.prod.ftl.netflix.com, mp.weixin.qq.com, r.inews.qq.com
